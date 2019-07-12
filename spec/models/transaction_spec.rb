@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
-
   # Association tests
-
   it { should belong_to(:wallet_origin).optional }
   it { should belong_to(:wallet_destiny).optional }
   it { should belong_to(:card_origin).optional }
