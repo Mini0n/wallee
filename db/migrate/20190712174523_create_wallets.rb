@@ -1,7 +1,7 @@
 class CreateWallets < ActiveRecord::Migration[5.2]
   def change
     create_table :wallets do |t|
-      t.decimal :balance
+      t.decimal :balance, default: 0.0
 
       t.timestamps
     end
