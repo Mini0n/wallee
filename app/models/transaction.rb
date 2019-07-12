@@ -5,4 +5,9 @@ class Transaction < ApplicationRecord
   belongs_to :card_destiny, class_name: 'Card', optional: true
 
   validates :amount, :percentage, :fixed, numericality: true, presence: true
+
+  # TODO: Build validators for valid operations:
+  # wallet_origin -> wallet_destiny
+  # wallet_origin -> card_destiny
+  # card_origin -> wallet_destiny (wallet of user)
 end
