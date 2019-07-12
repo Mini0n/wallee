@@ -5,9 +5,17 @@ class Transaction < ApplicationRecord
   belongs_to :card_destiny, class_name: 'Card', optional: true
 
   validates :amount, :percentage, :fixed, numericality: true, presence: true
+  validate :valid_operation
 
-  # TODO: Build validators for valid operations:
+  # Valid operations:
   # wallet_origin -> wallet_destiny
   # wallet_origin -> card_destiny
   # card_origin -> wallet_destiny (wallet of user)
+  def valid_operation
+    if (wallet_origin && wallet_destiny || wallet_origin && card_destiny ||
+        card_origin && wallet_destiny).nil?
+      errors.add(:wallet_destiny, 'invalid operation. Missing wallet(s) and/or card(s)')
+    end
+  end
+
 end
