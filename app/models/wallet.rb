@@ -9,4 +9,3 @@ class Wallet < ApplicationRecord
   # validates_associated :customer
   validates :balance, numericality: true, presence: true
 end
-
