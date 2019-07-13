@@ -17,7 +17,7 @@ class Transaction < ApplicationRecord
   # wallet_origin -> card_destiny
   # card_origin -> wallet_destiny (wallet of user)
   def valid_operation
-    if (wallet_origin && wallet_destiny || wallet_origin && card_destiny ||
+    if (wallet_origin && wallet_destiny || wallet_origin && card_destiny && card_destiny.debit ||
         card_origin && wallet_destiny).nil?
       errors.add(:amount, 'invalid operation. Missing wallet(s) and/or card(s)')
     end
