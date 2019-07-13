@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'rails_helper'
 
 RSpec.describe 'Cards API', type: :request do
   let!(:cards) { create_list(:card, 10) }
@@ -48,7 +49,7 @@ RSpec.describe 'Cards API', type: :request do
       {
         name: Faker::Business.credit_card_type,
         name_on_card: Faker::Name.name,
-        number: CreditCardValidations::Factory.random,
+        number: CreditCardValidations::Factory.random(:visa),
         expiry: Date.today + rand(1..1000),
         debit: [true, false].sample
       }
