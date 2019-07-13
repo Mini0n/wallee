@@ -26,13 +26,13 @@ class CardsController < ApplicationController
 
   # PUT /cards/:id
   def update
-    Card.find(params[:id]).update(card_params)
+    Card.find(params[:id]).update!(card_params)
     head :ok
   end
 
   # DELETE /cards/:id
   def destroy
-    Card.find(params[:id]).destroy
+    Card.find(params[:id]).destroy!
     head :ok
   end
 
