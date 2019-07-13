@@ -96,6 +96,14 @@ RSpec.describe 'Cards API', type: :request do
         expect(response).to have_http_status 200
       end
     end
+
+    context 'when data is invalid' do
+      before { put "/cards/#{card_id}", params: { name: '' } }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status 422
+      end
+    end
   end
 
   describe 'DELETE /cards/:id' do

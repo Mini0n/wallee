@@ -26,8 +26,11 @@ class CardsController < ApplicationController
 
   # PUT /cards/:id
   def update
-    Card.find(params[:id]).update!(card_params)
-    head :ok
+    if Card.find(params[:id]).update(card_params)
+      head :ok
+    else
+      json_response({error: 'Invalid data'}, :unprocessable_entity)
+    end
   end
 
   # DELETE /cards/:id
