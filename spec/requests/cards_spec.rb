@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Cards API', type: :request do
   let!(:cards) { create_list(:card, 10) }
   let(:card_id) { cards.first.id }
@@ -42,13 +44,15 @@ RSpec.describe 'Cards API', type: :request do
 
   describe 'POST /cards' do
     # valid params
-    let(:valid_params) { {
-      name: Faker::Business.credit_card_type,
-      name_on_card: Faker::Name.name,
-      number: CreditCardValidations::Factory.random,
-      expiry: Date.today + rand(1..1000),
-      debit: [true, false].sample
-    } }
+    let(:valid_params) do
+      {
+        name: Faker::Business.credit_card_type,
+        name_on_card: Faker::Name.name,
+        number: CreditCardValidations::Factory.random,
+        expiry: Date.today + rand(1..1000),
+        debit: [true, false].sample
+      }
+    end
 
     context 'when request is valid' do
       before { post '/cards', params: valid_params }
@@ -76,7 +80,7 @@ RSpec.describe 'Cards API', type: :request do
   end
 
   describe 'PUT /cards:id' do
-    let(:valid_params) { {name_on_card: Faker::Name.name} }
+    let(:valid_params) { { name_on_card: Faker::Name.name } }
 
     context 'when card exists' do
       before { put "/cards/#{card_id}", params: valid_params }

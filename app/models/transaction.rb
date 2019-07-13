@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Transaction < ApplicationRecord
   belongs_to :wallet_origin, class_name: 'Wallet', optional: true
 
@@ -20,5 +22,4 @@ class Transaction < ApplicationRecord
       errors.add(:amount, 'invalid operation. Missing wallet(s) and/or card(s)')
     end
   end
-
 end
