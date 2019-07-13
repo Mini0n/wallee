@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe 'Wallets API', type: :request do
@@ -25,7 +24,7 @@ RSpec.describe 'Wallets API', type: :request do
     context 'wallet exists' do
       it 'returns wallet' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq todo_id
+        expect(json['id']).to eq wallet_id
       end
 
       it 'returns status 200' do
@@ -34,12 +33,14 @@ RSpec.describe 'Wallets API', type: :request do
     end
 
     context 'wallet doesnt exists' do
+      let(:wallet_id) { 1235 }
+
       it 'returns status 404' do
         expect(response).to have_http_status 404
       end
 
       it 'returns error message' do
-        expect(response.body).to include 'The wallet does not exists'
+        expect(response.body).to include "Couldn't find Wallet"
       end
     end
   end
