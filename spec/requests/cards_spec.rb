@@ -19,7 +19,6 @@ RSpec.describe 'Cards API', type: :request do
   end
 
   describe 'POST /cards' do
-    # valid params
     let(:valid_params) do
       {
         name: Faker::Business.credit_card_type,
