@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Wallet < ApplicationRecord
-  # belongs_to :customer #to be done later
+  belongs_to :user, optional: true
+
   has_many :wallet_origin_transaction, class_name: 'Transaction', foreign_key: 'wallet_origin'
   has_many :wallet_destiny_transaction, class_name: 'Transaction', foreign_key: 'wallet_destiny'
 

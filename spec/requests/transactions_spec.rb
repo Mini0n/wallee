@@ -6,8 +6,15 @@ RSpec.describe 'Transactions API', type: :request do
 
   let(:card_credit) { create(:card, debit: false) }
   let(:card_debit) { create(:card, debit: true) }
+  let(:user_1) { create(:user) }
+  let(:user_2) { create(:user) }
 
-  let!(:transactions) { create_list(:transaction, 10) }
+  let!(:transactions) {
+    create_list(:transaction, 10,
+      wallet_origin_id: user_1.wallet.id,
+      wallet_destiny_id: user_2.wallet.id
+      )
+    }
 
   let(:wallet_id) { transactions.first.wallet_origin_id }
 
