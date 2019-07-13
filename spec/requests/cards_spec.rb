@@ -18,33 +18,6 @@ RSpec.describe 'Cards API', type: :request do
     end
   end
 
-  describe 'GET /cards/:id' do
-    before { get "/cards/#{card_id}" }
-
-    context 'card exists' do
-      it 'returns card' do
-        expect(json).not_to be_empty
-        expect(json['id']).to eq card_id
-      end
-
-      it 'returns status code 200' do
-        expect(response).to have_http_status 200
-      end
-    end
-
-    context 'card doesnt exists' do
-      let(:card_id) { 1111 }
-
-      it 'returns status code 404' do
-        expect(response).to have_http_status 404
-      end
-
-      it 'returns error message' do
-        expect(response.body).to include "Couldn't find Card"
-      end
-    end
-  end
-
   describe 'POST /cards' do
     # valid params
     let(:valid_params) do
@@ -78,6 +51,33 @@ RSpec.describe 'Cards API', type: :request do
 
       it 'returns error message' do
         expect(response.body).to include 'Number is invalid'
+      end
+    end
+  end
+
+  describe 'GET /cards/:id' do
+    before { get "/cards/#{card_id}" }
+
+    context 'card exists' do
+      it 'returns card' do
+        expect(json).not_to be_empty
+        expect(json['id']).to eq card_id
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status 200
+      end
+    end
+
+    context 'card doesnt exists' do
+      let(:card_id) { 1111 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status 404
+      end
+
+      it 'returns error message' do
+        expect(response.body).to include "Couldn't find Card"
       end
     end
   end
