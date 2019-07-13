@@ -92,8 +92,8 @@ RSpec.describe 'Cards API', type: :request do
         expect(response.body).to be_empty
       end
 
-      it 'returns status code 204' do
-        expect(response).to have_http_status 204
+      it 'returns status code 200' do
+        expect(response).to have_http_status 200
       end
     end
   end
@@ -102,8 +102,8 @@ RSpec.describe 'Cards API', type: :request do
     before { delete "/cards/#{card_id}" }
 
     context 'when card is deleted' do
-      it 'returns status code 204' do
-        expect(response).to have_http_status 204
+      it 'returns status code 200' do
+        expect(response).to have_http_status 200
       end
     end
   end
