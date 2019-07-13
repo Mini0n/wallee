@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_202954) do
+ActiveRecord::Schema.define(version: 2019_07_13_001407) do
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
@@ -18,6 +18,15 @@ ActiveRecord::Schema.define(version: 2019_07_12_202954) do
     t.string "number"
     t.date "expiry"
     t.boolean "debit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comissions", force: :cascade do |t|
+    t.decimal "lower_limit"
+    t.decimal "upper_limit"
+    t.decimal "percentage"
+    t.decimal "fixed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
