@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :wallets, only: %i[index show] do
-    resources :transactions, only: %i[index show]
+    resources :transactions, only: %i[index show create]
   end
 
   resources :cards do
