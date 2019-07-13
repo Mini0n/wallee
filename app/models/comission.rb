@@ -4,6 +4,7 @@ class Comission < ApplicationRecord
   validate :valid_limits
 
   def valid_limits
-    errors.add(:lower_limit, 'must be less than upper_limit') if lower_limit > upper_limit
+    (errors.add(:lower_limit, 'must be less than upper_limit') if lower_limit >= upper_limit) if
+      lower_limit && upper_limit
   end
 end
