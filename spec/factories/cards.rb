@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :card do
     name { Faker::Business.credit_card_type }
     name_on_card { Faker::Name.name }
-    number { CreditCardValidations::Factory.random }
+    number { CreditCardValidations::Factory.random([:mastercard, :visa, :amex].sample) }
     expiry { Date.today + rand(1..1000) }
     debit { [true, false].sample }
   end
