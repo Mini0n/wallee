@@ -24,13 +24,21 @@ class CardsController < ApplicationController
     json_response(Card.find(params[:id]))
   end
 
+  # PUT /cards/:id
+  def update
+    Card.find(params[:id]).update(card_params)
+    head :ok
+  end
+
+  # DELETE /cards/:id
+  def destroy
+    Card.find(params[:id]).destroy
+    head :ok
+  end
+
   private
 
   def card_params
     params.permit(:name, :name_on_card, :number, :expiry, :debit)
   end
-
-  # def set_card
-  #   @card = Card.find(params[:id])
-  # end
 end
