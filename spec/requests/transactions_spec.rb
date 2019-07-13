@@ -110,5 +110,24 @@ RSpec.describe 'Transactions API', type: :request do
     let(:valid_amounts) do
       { amount: 33.0, percentage: 2.0, fixed: 3.0 }
     end
+    let(:wallet) { create(:wallet) }
+    let(:credit) { create(:card, debit: false) }
+    let(:debit) { create(:card, debit: true ) }
+
+    context 'accepted movements' do
+      it 'creates wallet to wallet' do
+      end
+
+      it 'creates wallet to card (debit)' do
+
+      end
+
+      it 'crates card to wallet' do
+
+      end
+    end
+
+    context 'forbidden movements' do
+    end
   end
 end
