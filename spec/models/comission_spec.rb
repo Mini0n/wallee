@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Comission, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should validate_presence_of(:lower_limit) }
+  it { should validate_presence_of(:upper_limit) }
+  it { should validate_presence_of(:percentage) }
+  it { should validate_presence_of(:fixed) }
+
+  it { should validate_numericality_of(:lower_limit) }
+  it { should validate_numericality_of(:upper_limit) }
+  it { should validate_numericality_of(:percentage) }
+  it { should validate_numericality_of(:fixed) }
 end
