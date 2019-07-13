@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :comission do
-    lower_limit { "9.99" }
-    upper_limit { "9.99" }
-    percentage { "9.99" }
-    fixed { "9.99" }
+    lower_limit { rand(1.0...11.0).round(2) }
+    upper_limit { rand(1.0...11.0).round(2) }
+    percentage { rand(1.0...11.0).round(2) }
+    fixed { rand(1.0...11.0).round(2) }
   end
 end
