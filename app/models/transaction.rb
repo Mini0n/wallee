@@ -6,7 +6,8 @@ class Transaction < ApplicationRecord
   belongs_to :card_origin, class_name: 'Card', optional: true
   belongs_to :card_destiny, class_name: 'Card', optional: true
 
-  validates :amount, :percentage, :fixed, numericality: true, presence: true
+  validates :amount, :percentage, :fixed,
+            numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :valid_operation
 
   # Valid operations:
