@@ -29,7 +29,7 @@ RSpec.describe 'Authentication', type: :request do
       before { post '/auth/login', params: invalid_creds, headers: headers }
 
       it 'returns fail message' do
-        expect(json['message']).to match /Invalid Credentials/
+        expect(json['message']).to match(/Invalid Credentials/)
       end
     end
   end
