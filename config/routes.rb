@@ -3,15 +3,16 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :wallets, only: %i[index show] do
-    resources :transactions, only: %i[index show create]
+    resources :transactions, only: %i[index show]
   end
 
   resources :cards do
     resources :transactions, only: %i[index show]
   end
 
-  post 'auth/login', to: 'authentication#authenticate'
+  post 'transactions', to: 'transactions#create'
 
+  post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
 
   # namespace :admin do
