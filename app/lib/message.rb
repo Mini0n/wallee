@@ -16,7 +16,7 @@ class Message
   end
 
   def self.unauthorized
-    'Unauthorized request'
+    'Unauthorized request. Ah, ah, ah. You didnt say the magic word'
   end
 
   def self.account_created
