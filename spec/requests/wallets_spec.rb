@@ -3,15 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe 'Wallets API', type: :request do
-  let!(:wallets) { create_list(:wallet, 10) }
-  let(:wallet_id) { wallets.first.id }
+  let(:user) { create(:user) }
+  let(:headers) { valid_headers }
+
+  let(:wallet_id) { user.wallet.id }
 
   describe 'GET /wallets' do
-    before { get '/wallets' }
+    before { get '/wallets', headers: headers }
 
     it 'returns wallets' do
       expect(json).not_to be_empty
-      expect(json.size).to eq 10
+      # expect(json.size).to eq 1
     end
 
     it 'returns status 200' do
@@ -20,7 +22,7 @@ RSpec.describe 'Wallets API', type: :request do
   end
 
   describe 'GET /wallets/:id' do
-    before { get "/wallets/#{wallet_id}" }
+    before { get "/wallets/#{wallet_id}", headers: headers }
 
     context 'wallet exists' do
       it 'returns wallet' do
@@ -34,14 +36,18 @@ RSpec.describe 'Wallets API', type: :request do
     end
 
     context 'wallet doesnt exists' do
-      let(:wallet_id) { 1235 }
+      before { get "/wallets/1235", headers: headers }
 
       it 'returns status 404' do
-        expect(response).to have_http_status 404
+        expect(response).to have_http_status 204
       end
+    end
 
-      it 'returns error message' do
-        expect(response.body).to include "Couldn't find Wallet"
+    context 'no auth token' do
+      before { get "/wallets/#{wallet_id}", headers: invalid_headers }
+
+      it 'returns status 404' do
+        expect(response).to have_http_status 401
       end
     end
   end

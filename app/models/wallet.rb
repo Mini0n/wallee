@@ -11,4 +11,8 @@ class Wallet < ApplicationRecord
 
   # validates_associated :customer
   validates :balance, numericality: true, presence: true
+
+  def create
+    Wallet.create!(balance: 0.0)
+  end
 end
