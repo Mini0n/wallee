@@ -3,11 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe 'Cards API', type: :request do
+  let(:user) { create(:user) }
+  let(:headers) { valid_headers }
+
   let!(:cards) { create_list(:card, 10) }
   let(:card_id) { cards.first.id }
 
+
+
   describe 'GET /cards' do
-    before { get '/cards' }
+    before { user.cards = cards }
+    before { get '/cards', params: {}, headers: headers }
 
     it 'returns cards' do
       expect(json).not_to be_empty
@@ -20,6 +26,7 @@ RSpec.describe 'Cards API', type: :request do
   end
 
   describe 'POST /cards' do
+    before { user.cards = cards }
     let(:valid_params) do
       {
         name: Faker::Business.credit_card_type,
@@ -31,7 +38,7 @@ RSpec.describe 'Cards API', type: :request do
     end
 
     context 'when request is valid' do
-      before { post '/cards', params: valid_params }
+      before { post '/cards', params: valid_params.to_json, headers: headers }
 
       it 'creates a new card' do
         expect(json['number']).to eq valid_params[:number]
@@ -43,7 +50,7 @@ RSpec.describe 'Cards API', type: :request do
     end
 
     context 'when request is invalid' do
-      before { post '/cards', params: { name: 'invalid' } }
+      before { post '/cards', params: { name: 'invalid' }.to_json, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status 422
@@ -56,7 +63,7 @@ RSpec.describe 'Cards API', type: :request do
   end
 
   describe 'GET /cards/:id' do
-    before { get "/cards/#{card_id}" }
+    before { get "/cards/#{card_id}", params: {}, headers: headers }
 
     context 'card exists' do
       it 'returns card' do
@@ -86,7 +93,7 @@ RSpec.describe 'Cards API', type: :request do
     let(:valid_params) { { name_on_card: Faker::Name.name } }
 
     context 'when card exists' do
-      before { put "/cards/#{card_id}", params: valid_params }
+      before { put "/cards/#{card_id}", params: valid_params.to_json, headers: headers }
 
       it 'updates card' do
         expect(response.body).to be_empty
@@ -98,16 +105,24 @@ RSpec.describe 'Cards API', type: :request do
     end
 
     context 'when data is invalid' do
-      before { put "/cards/#{card_id}", params: { name: '' } }
+      before { put "/cards/#{card_id}", params: { name: '' }.to_json, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status 422
       end
     end
+
+    context 'when unauthorized' do
+      before { put "/cards/#{card_id}", params: valid_params.to_json, headers: invalid_headers }
+
+      it 'returns status code 401' do
+        expect(response).to have_http_status 401
+      end
+    end
   end
 
   describe 'DELETE /cards/:id' do
-    before { delete "/cards/#{card_id}" }
+    before { delete "/cards/#{card_id}", headers: headers }
 
     context 'when card is deleted' do
       it 'returns status code 200' do

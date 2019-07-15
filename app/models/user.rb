@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_one :wallet
-  # has_many :cards
+  has_many :cards
 
   validates_presence_of :name, :email, :password_digest
 end

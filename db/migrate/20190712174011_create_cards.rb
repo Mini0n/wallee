@@ -8,6 +8,7 @@ class CreateCards < ActiveRecord::Migration[5.2]
       t.string :number
       t.date :expiry
       t.boolean :debit
+      t.references :user, foreign_key: true
 
       t.timestamps
     end

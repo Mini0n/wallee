@@ -2,7 +2,8 @@
 
 class Card < ApplicationRecord
   include ActiveModel::Validations
-  # belongs_to :customer #to be done later
+  belongs_to :user, optional: true
+
   has_many :card_origin_transaction, class_name: 'Transaction', foreign_key: 'card_origin'
   has_many :card_destiny_transaction, class_name: 'Transaction', foreign_key: 'card_destiny'
 

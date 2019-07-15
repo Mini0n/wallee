@@ -3,7 +3,7 @@
 class CardsController < ApplicationController
   # GET /cards
   def index
-    @cards = Card.all
+    @cards = current_user.cards
     json_response(@cards)
   end
 
@@ -11,7 +11,8 @@ class CardsController < ApplicationController
   def create
     @card = Card.new(card_params)
     if @card.valid?
-      Card.create!(card_params)
+      @card = Card.create!(card_params)
+      @card.update(user: current_user)
       json_response(@card, :created)
     else
       json_response({ error: @card.errors.full_messages.to_sentence }, :unprocessable_entity)
