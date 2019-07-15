@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     resources :transactions, only: %i[index show]
   end
 
+  post 'auth/login', to: 'authentication#authenticate'
+
+  post 'signup', to: 'users#create'
+
   # namespace :admin do
   #   resources :users, :wallets
   #   resources :transactions, only: [:index, :show]
