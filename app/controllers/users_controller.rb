@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   # POST /signup
   def create
     user = User.create!(user_params)
+    user.wallet = Wallet.create!
     auth_token = AuthUser.new(user.email, user.password).call
     response = { message: Message.account_created, auth_token: auth_token }
     json_response(response, :created)
