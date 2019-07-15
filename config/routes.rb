@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :transactions, only: %i[index show]
   end
 
-  post 'transactions', to: 'transactions#create'
+  resources :transactions, only: %i[index show create]
 
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
