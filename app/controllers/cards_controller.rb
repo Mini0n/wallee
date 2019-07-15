@@ -14,7 +14,7 @@ class CardsController < ApplicationController
       Card.create!(card_params)
       json_response(@card, :created)
     else
-      json_response({error: @card.errors.full_messages.to_sentence}, :unprocessable_entity)
+      json_response({ error: @card.errors.full_messages.to_sentence }, :unprocessable_entity)
     end
   end
 
@@ -28,7 +28,7 @@ class CardsController < ApplicationController
     if Card.find(params[:id]).update(card_params)
       head :ok
     else
-      json_response({error: 'Invalid data'}, :unprocessable_entity)
+      json_response({ error: 'Invalid data' }, :unprocessable_entity)
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ExceptionHandler
   extend ActiveSupport::Concern
 
@@ -15,7 +17,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::InvalidToken, with: :bad_token
 
     rescue_from ActiveRecord::RecordNotFound do |er|
-      json_response({ error: er.message.slice(0, er.message.index(' with'))}, :not_found)
+      json_response({ error: er.message.slice(0, er.message.index(' with')) }, :not_found)
     end
   end
 

@@ -3,37 +3,35 @@
 require 'rails_helper'
 
 RSpec.describe 'Transactions API', type: :request do
-
   let(:card_credit) { create(:card, debit: false) }
   let(:card_debit) { create(:card, debit: true) }
   let(:user_1) { create(:user) }
   let(:user_2) { create(:user) }
 
-  let!(:transactions) {
+  let!(:transactions) do
     create_list(:transaction, 10,
-      wallet_origin_id: user_1.wallet.id,
-      wallet_destiny_id: user_2.wallet.id
-      )
-    }
+                wallet_origin_id: user_1.wallet.id,
+                wallet_destiny_id: user_2.wallet.id)
+  end
 
   let(:wallet_id) { transactions.first.wallet_origin_id }
 
-  let!(:transactions_to_card) {
+  let!(:transactions_to_card) do
     create_list(
       :transaction, 10,
       wallet_origin_id: wallet_id,
       wallet_destiny_id: nil,
       card_destiny: card_debit
     )
-  }
-  let!(:transactions_from_card) {
+  end
+  let!(:transactions_from_card) do
     create_list(
       :transaction, 10,
       wallet_origin_id: nil,
       wallet_destiny_id: wallet_id,
       card_origin: card_credit
     )
-  }
+  end
 
   let(:transaction_id) { transactions.first.id }
   let(:transaction_from_card_id) { transactions_from_card.first.id }
@@ -119,18 +117,16 @@ RSpec.describe 'Transactions API', type: :request do
     end
     let(:wallet) { create(:wallet) }
     let(:credit) { create(:card, debit: false) }
-    let(:debit) { create(:card, debit: true ) }
+    let(:debit) { create(:card, debit: true) }
 
     context 'accepted movements' do
       it 'creates wallet to wallet' do
       end
 
       it 'creates wallet to card (debit)' do
-
       end
 
       it 'crates card to wallet' do
-
       end
     end
 

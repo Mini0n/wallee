@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class WalletsController < ApplicationController
-
   # GET /wallets
   def index
     @wallets = Wallet.all
