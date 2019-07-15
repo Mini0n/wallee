@@ -2,11 +2,9 @@ module ExceptionHandler
   extend ActiveSupport::Concern
 
   # Define custom error subclasses - rescue catches `StandardErrors`
-  class AuthenticationError < StandardError; end
+  class AuthError < StandardError; end
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
-
-
 
   included do
     # Define custom handlers
