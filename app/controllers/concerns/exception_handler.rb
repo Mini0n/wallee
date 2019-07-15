@@ -10,7 +10,7 @@ module ExceptionHandler
 
   included do
     # Define custom handlers
-    rescue_from ActiveRecord::RecordInvalid, with: :four_twenty_two
+    rescue_from ActiveRecord::RecordInvalid, with: :unprocessable
 
     rescue_from ExceptionHandler::AuthError, with: :bad_token
     rescue_from ExceptionHandler::MissingToken, with: :bad_token
@@ -26,4 +26,9 @@ module ExceptionHandler
   def bad_token(e)
     json_response({ message: e.message }, :unauthorized)
   end
+
+  def unprocessable(e)
+    json_response({message: e.message}, :unprocessable_entity)
+  end
+
 end
