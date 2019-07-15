@@ -3,22 +3,27 @@
 require 'rails_helper'
 
 RSpec.describe 'Transactions API', type: :request do
-  let(:card_credit) { create(:card, debit: false) }
-  let(:card_debit) { create(:card, debit: true) }
-  let(:user_1) { create(:user) }
+  let(:user) { create(:user) }
   let(:user_2) { create(:user) }
+  let(:headers) { valid_headers }
+
+  let(:card_credit) { create(:card, debit: false, user: user) }
+  let(:card_debit) { create(:card, debit: true, user: user) }
 
   let!(:transactions) do
     create_list(:transaction, 10,
-                wallet_origin_id: user_1.wallet.id,
+                amount: 1000,
+                wallet_origin_id: user.wallet.id,
                 wallet_destiny_id: user_2.wallet.id)
   end
 
-  let(:wallet_id) { transactions.first.wallet_origin_id }
+  # let(:wallet_id) { transactions.first.wallet_origin_id }
+  let!(:wallet_id) { user.wallet.id }
 
   let!(:transactions_to_card) do
     create_list(
       :transaction, 10,
+      amount: 1000,
       wallet_origin_id: wallet_id,
       wallet_destiny_id: nil,
       card_destiny: card_debit
@@ -27,6 +32,7 @@ RSpec.describe 'Transactions API', type: :request do
   let!(:transactions_from_card) do
     create_list(
       :transaction, 10,
+      amount: 1000,
       wallet_origin_id: nil,
       wallet_destiny_id: wallet_id,
       card_origin: card_credit
@@ -39,7 +45,7 @@ RSpec.describe 'Transactions API', type: :request do
 
   describe 'GET /transactions' do
     context 'wallet to wallet' do
-      before { get "/wallets/#{wallet_id}/transactions" }
+      before { get "/transactions", headers: headers }
 
       it 'returns transactions' do
         expect(json).not_to be_empty
@@ -54,7 +60,7 @@ RSpec.describe 'Transactions API', type: :request do
     end
 
     context 'wallet to card' do
-      before { get "/wallets/#{wallet_id}/transactions" }
+      before { get "/transactions", headers: headers }
 
       it 'returns transactions' do
         expect(json).not_to be_empty
@@ -69,13 +75,13 @@ RSpec.describe 'Transactions API', type: :request do
     end
 
     context 'card to wallet' do
-      before { get "/wallets/#{wallet_id}/transactions" }
+      before { get "/transactions", headers: headers }
 
       it 'returns transactions' do
         expect(json).not_to be_empty
         expect(json.size).to eq 30
-        expect(json[23]['card_origin_id']).to be_truthy
-        expect(json[23]['wallet_destiny_id']).to be_truthy
+        expect(json[21]['card_origin_id']).to be_truthy
+        expect(json[21]['wallet_destiny_id']).to be_truthy
       end
 
       it 'returns status 200' do
@@ -85,7 +91,7 @@ RSpec.describe 'Transactions API', type: :request do
   end
 
   describe 'GET /transactions/:id' do
-    before { get "/wallets/#{wallet_id}/transactions/#{transaction_id}" }
+    before { get "/wallets/#{wallet_id}/transactions/#{transaction_id}", headers: headers }
 
     context 'transaction exists' do
       it 'returns transaction' do
@@ -112,25 +118,45 @@ RSpec.describe 'Transactions API', type: :request do
   end
 
   describe 'POST /transactions' do
-    let(:valid_amounts) do
-      { amount: 33.0, percentage: 2.0, fixed: 3.0 }
-    end
-    let(:wallet) { create(:wallet) }
-    let(:credit) { create(:card, debit: false) }
-    let(:debit) { create(:card, debit: true) }
-
     context 'accepted movements' do
-      it 'creates wallet to wallet' do
+      context 'wallet to wallet' do
+        context 'succesful movement' do
+        end
+
+        context 'bad destiny wallet' do
+        end
+
+        context 'invalid origin wallet' do
+        end
+
+        context 'insufficient funds' do
+        end
       end
 
-      it 'creates wallet to card (debit)' do
+      it 'wallet to card (debit)' do
       end
 
-      it 'crates card to wallet' do
+      it 'card to wallet' do
       end
     end
 
     context 'forbidden movements' do
+      let(:params) do
+        {
+          amount: 100,
+          wallet_origin_id: wallet_id,
+          card_destiny_id: card_credit.id
+        }
+      end
+
+      context 'wallet to card (credit)' do
+        before { post '/transactions', params: params.to_json, headers: headers }
+
+        it 'returns status 422' do
+          expect(json['error']).to include 'invalid operation'
+          expect(response).to have_http_status 422
+        end
+      end
     end
   end
 end
