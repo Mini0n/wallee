@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe AuthorizeRequest do
   let(:user) { create(:user) }
-  let(:header) { { 'Auth' => token_generator(user.id) } }
+  let(:header) { { 'Authorization' => token_generator(user.id) } }
 
   subject(:bad_request) { AuthorizeRequest.new({}) }
   subject(:yes_request) { AuthorizeRequest.new(header) }
@@ -24,7 +24,7 @@ RSpec.describe AuthorizeRequest do
       end
 
       context 'Invalid Token' do
-        let(:bad_header) { { 'Auth' => token_generator(1111) } }
+        let(:bad_header) { { 'Authorization' => token_generator(1111) } }
         subject(:bad_request) { AuthorizeRequest.new(bad_header) }
 
         it 'raises InvalidToken' do
@@ -34,7 +34,7 @@ RSpec.describe AuthorizeRequest do
       end
 
       context 'Expired Token' do
-        let(:bad_header) { { 'Auth' => token_generator_expired(user.id) } }
+        let(:bad_header) { { 'Authorization' => token_generator_expired(user.id) } }
         subject(:bad_request) { AuthorizeRequest.new(bad_header) }
 
         it 'raises Invalid Token' do
@@ -44,7 +44,7 @@ RSpec.describe AuthorizeRequest do
       end
 
       context 'Fake token' do
-        let(:bad_header) { { 'Auth' => 'this-is-not-a-valid-token' } }
+        let(:bad_header) { { 'Authorization' => 'this-is-not-a-valid-token' } }
         subject(:bad_request) { AuthorizeRequest.new(bad_header) }
 
         it 'handles JWT::DecodeError' do
