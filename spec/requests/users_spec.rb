@@ -32,5 +32,4 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
-
 end
