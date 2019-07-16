@@ -31,6 +31,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'rack-cors'
 gem 'credit_card_validations'
 
+# gem 'pg'
+gem 'sqlite3'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -40,7 +43,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda-matchers'
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  # gem 'sqlite3'
 end
 
 group :development do
@@ -52,7 +55,7 @@ end
 
 # foreshadowing heroku deploy
 group :production do
-  gem 'pg'
+
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
