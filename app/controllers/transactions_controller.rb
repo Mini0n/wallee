@@ -40,24 +40,59 @@ class TransactionsController < ApplicationController
         @res = card_to_wallet
       end
     end
-    # byebug
+
     return json_response(@transaction, :ok) if @res
     json_response({ error: @transaction.errors.full_messages.to_sentence }, :unprocessable_entity)
   end
 
   private
 
-  def wallet_to_wallet
-    if @transaction.wallet_origin.user == current_user
-      full_amount = full_amount(@transaction.amount)
-      if @transaction.wallet_origin.balance > full_amount
-        admin_user.wallet.balance += full_amount - @transaction.amount
-        @transaction.wallet_origin.balance -= full_amount
-        @transaction.wallet_destiny.balance += @transaction.amount
-        return @transaction.save && admin_user.save
+  def card_to_wallet
+    if @transaction.wallet_destiny.user == current_user
+      @full_amount = full_amount(@transaction.amount)
+
+      admin_user.wallet.balance += @full_amount - @transaction.amount
+      current_user.wallet.balance += @transaction.amount
+
+      if CardCallback.simulate(@transaction.card_origin.number)
+        return current_user.wallet.save && admin_user.wallet.save
       end
     end
     false
+  end
+
+  def wallet_to_card
+    if @transaction.wallet_origin.user == current_user
+      @full_amount = full_amount(@transaction.amount)
+      if balance_ok
+        admin_user.wallet.balance += @full_amount - @transaction.amount
+        @transaction.wallet_origin.balance -= @full_amount
+
+        if CardCallback.simulate(@transaction.card_destiny.number)
+          return current_user.wallet.save && admin_user.wallet.save
+        end
+      end
+    end
+    false
+  end
+
+  def wallet_to_wallet
+    if @transaction.wallet_origin.user == current_user
+      @full_amount = full_amount(@transaction.amount)
+      if balance_ok
+        admin_user.wallet.balance += @full_amount - @transaction.amount
+        @transaction.wallet_origin.balance -= @full_amount
+        @transaction.wallet_destiny.balance += @transaction.amount
+        return @transaction.wallet_destiny.save &&
+               @transaction.wallet_origin.save &&
+               admin_user.wallet.save
+      end
+    end
+    false
+  end
+
+  def balance_ok
+    @transaction.wallet_origin.balance > @full_amount
   end
 
   # calculate amount to be payer with comissions
@@ -91,8 +126,8 @@ class TransactionsController < ApplicationController
     params.permit(
       :wallet_origin_id,
       :wallet_destiny_id,
-      :card_origin,
-      :card_destiny,
+      :card_origin_id,
+      :card_destiny_id,
       :amount
     )
   end
