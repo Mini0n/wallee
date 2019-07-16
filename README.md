@@ -1,6 +1,6 @@
 # README
 
-##Wallee
+## Wallee
 
 Wallee is an e-Waller/Digital-Wallet project built in RoR.
 
