@@ -40,7 +40,7 @@ class TransactionsController < ApplicationController
            @res = card_to_wallet
       end
     end
-
+    @transaction.save! if @res
     return json_response(@transaction, :ok) if @res
     json_response({ error: @transaction.errors.full_messages.to_sentence }, :unprocessable_entity)
   end
