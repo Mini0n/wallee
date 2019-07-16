@@ -30,4 +30,8 @@ class Message
   def self.expired_token
     'Token Expired. Login Again'
   end
+
+  def self.no_admin
+    'System not correctly configured'
+  end
 end
