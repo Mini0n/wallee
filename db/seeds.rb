@@ -9,5 +9,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 #Create admin user
-wallet = Wallet.create(id:0, balance: 0.0)
+wallet = Wallet.create(id: 0, balance: 0.0)
 User.create(id: 0, name: 'rut', email:'rut@rut.rut', password: 'sample_pass', wallet: wallet)
