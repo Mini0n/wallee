@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Transactions API', type: :request do
+  let!(:user_admin){ create(:user, id: 0) }
   let(:user) { create(:user) }
   let(:user_2) { create(:user) }
   let(:headers) { valid_headers }
@@ -17,7 +18,6 @@ RSpec.describe 'Transactions API', type: :request do
                 wallet_destiny_id: user_2.wallet.id)
   end
 
-  # let(:wallet_id) { transactions.first.wallet_origin_id }
   let!(:wallet_id) { user.wallet.id }
 
   let!(:transactions_to_card) do
@@ -118,29 +118,54 @@ RSpec.describe 'Transactions API', type: :request do
   end
 
   describe 'POST /transactions' do
-    context 'accepted movements' do
-      context 'wallet to wallet' do
-        context 'succesful movement' do
-        end
 
-        context 'bad destiny wallet' do
-        end
+    context 'wallet to wallet' do
+      let(:params) do
+        {
+          amount: 100,
+          wallet_origin_id: wallet_id,
+          wallet_destiny_id: user_2.wallet.id
+        }
+      end
+      context 'successful transfer' do
+        before { post '/transactions', params: params.to_json, headers: headers }
 
-        context 'invalid origin wallet' do
-        end
-
-        context 'insufficient funds' do
+        it 'returns status 200' do
+          expect(json['fixed']).not_to be_nil
+          expect(response).to have_http_status 200
         end
       end
 
-      it 'wallet to card (debit)' do
+      context 'invalid destiny wallet' do
+        before { post '/transactions', params: params.merge({wallet_destiny_id: 1234}).to_json, headers: headers }
+
+        it 'returns status 422' do
+          expect(json['fixed']).to be_nil
+          expect(response).to have_http_status 422
+        end
       end
 
-      it 'card to wallet' do
+      context 'invalid origin wallet' do
+        before { post '/transactions', params: params.merge({wallet_origin_id: user_2.wallet.id}).to_json, headers: headers }
+
+        it 'returns status 422' do
+          expect(json['fixed']).to be_nil
+          expect(response).to have_http_status 422
+        end
       end
+
+      context 'unsufficient funds' do
+        before { post '/transactions', params: params.merge({amount: 1000}).to_json, headers: headers }
+
+        it 'returns status 422' do
+          expect(json['fixed']).to be_nil
+          expect(response).to have_http_status 422
+        end
+      end
+
     end
 
-    context 'forbidden movements' do
+    context 'wallet to credit card' do
       let(:params) do
         {
           amount: 100,
