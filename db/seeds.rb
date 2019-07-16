@@ -8,6 +8,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-#Create admin user
+# Create admin user
 wallet = Wallet.create(id: 0, balance: 0.0)
-User.create(id: 0, name: 'rut', email:'rut@rut.rut', password: 'sample_pass', wallet: wallet)
+User.create(id: 0, name: 'rut', email: 'rut@rut.rut', password: 'sample_pass', wallet: wallet)

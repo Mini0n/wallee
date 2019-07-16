@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Transactions API', type: :request do
-  let!(:user_admin){ create(:user, id: 0) }
+  let!(:user_admin) { create(:user, id: 0) }
   let(:user) { create(:user) }
   let(:user_2) { create(:user) }
   let(:headers) { valid_headers }
@@ -45,7 +45,7 @@ RSpec.describe 'Transactions API', type: :request do
 
   describe 'GET /transactions' do
     context 'wallet to wallet' do
-      before { get "/transactions", headers: headers }
+      before { get '/transactions', headers: headers }
 
       it 'returns transactions' do
         expect(json).not_to be_empty
@@ -60,7 +60,7 @@ RSpec.describe 'Transactions API', type: :request do
     end
 
     context 'wallet to card' do
-      before { get "/transactions", headers: headers }
+      before { get '/transactions', headers: headers }
 
       it 'returns transactions' do
         expect(json).not_to be_empty
@@ -75,7 +75,7 @@ RSpec.describe 'Transactions API', type: :request do
     end
 
     context 'card to wallet' do
-      before { get "/transactions", headers: headers }
+      before { get '/transactions', headers: headers }
 
       it 'returns transactions' do
         expect(json).not_to be_empty
@@ -136,7 +136,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'invalid destiny wallet' do
-        before { post '/transactions', params: params.merge({wallet_destiny_id: 1234}).to_json, headers: headers }
+        before { post '/transactions', params: params.merge(wallet_destiny_id: 1234).to_json, headers: headers }
 
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
@@ -145,7 +145,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'invalid origin wallet' do
-        before { post '/transactions', params: params.merge({wallet_origin_id: user_2.wallet.id}).to_json, headers: headers }
+        before { post '/transactions', params: params.merge(wallet_origin_id: user_2.wallet.id).to_json, headers: headers }
 
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
@@ -154,7 +154,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'unsufficient funds' do
-        before { post '/transactions', params: params.merge({amount: 1000}).to_json, headers: headers }
+        before { post '/transactions', params: params.merge(amount: 1000).to_json, headers: headers }
 
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
@@ -163,7 +163,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'bad_headers example' do
-        before { post '/transactions', params: params.merge({amount: 1000}).to_json, headers: invalid_headers }
+        before { post '/transactions', params: params.merge(amount: 1000).to_json, headers: invalid_headers }
 
         it 'returns status 422' do
           expect(response).to have_http_status 401
@@ -190,7 +190,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'invalid origin wallet' do
-        before { post '/transactions', params: params.merge({wallet_origin_id: user_2.wallet.id}).to_json, headers: headers }
+        before { post '/transactions', params: params.merge(wallet_origin_id: user_2.wallet.id).to_json, headers: headers }
 
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
@@ -199,7 +199,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'unsufficient funds' do
-        before { post '/transactions', params: params.merge({amount: 1000}).to_json, headers: headers }
+        before { post '/transactions', params: params.merge(amount: 1000).to_json, headers: headers }
 
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
@@ -227,7 +227,7 @@ RSpec.describe 'Transactions API', type: :request do
       end
 
       context 'invalid destiny wallet' do
-        before { post '/transactions', params: params.merge({wallet_destiny_id: 1234}).to_json, headers: headers }
+        before { post '/transactions', params: params.merge(wallet_destiny_id: 1234).to_json, headers: headers }
 
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
@@ -254,6 +254,5 @@ RSpec.describe 'Transactions API', type: :request do
         end
       end
     end
-
   end
 end

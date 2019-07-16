@@ -13,7 +13,7 @@ class TransactionsController < ApplicationController
     if @transaction &&
        @transaction.wallet_origin.user == current_user ||
        @transaction.wallet_destiny.user == current_user
-        json_response(@transaction)
+      json_response(@transaction)
     else
       json_response({ error: 'Not found' }, :not_found)
     end
@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
 
       # card -> wallet
       else @transaction.card_origin && @transaction.wallet_destiny
-        @res = card_to_wallet
+           @res = card_to_wallet
       end
     end
 
@@ -97,7 +97,7 @@ class TransactionsController < ApplicationController
 
   # calculate amount to be payer with comissions
   def full_amount(amount)
-    amount + transaction_fixed(amount) + amount*(transaction_percentage(amount)/100)
+    amount + transaction_fixed(amount) + amount * (transaction_percentage(amount) / 100)
   end
 
   def transaction_percentage(amount)

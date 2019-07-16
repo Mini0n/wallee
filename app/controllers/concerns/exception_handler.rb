@@ -16,7 +16,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::AuthError, with: :bad_token
     rescue_from ExceptionHandler::MissingToken, with: :bad_token
     rescue_from ExceptionHandler::InvalidToken, with: :bad_token
-    rescue_from ExceptionHandler::NoAdminUser, with: 	:precondition_failed
+    rescue_from ExceptionHandler::NoAdminUser, with: :precondition_failed
 
     rescue_from ActiveRecord::RecordNotFound do |er|
       json_response({ error: er.message.slice(0, er.message.index(' with')) }, :not_found)
@@ -30,7 +30,6 @@ module ExceptionHandler
   end
 
   def unprocessable(e)
-    json_response({message: e.message}, :unprocessable_entity)
+    json_response({ message: e.message }, :unprocessable_entity)
   end
-
 end

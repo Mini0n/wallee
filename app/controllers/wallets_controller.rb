@@ -10,8 +10,6 @@ class WalletsController < ApplicationController
 
   # GET /wallets/:id
   def show
-    if current_user.wallet.id.to_s == params[:id]
-      json_response(Wallet.find(params[:id]))
-    end
+    json_response(Wallet.find(params[:id])) if current_user.wallet.id.to_s == params[:id]
   end
 end

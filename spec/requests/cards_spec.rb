@@ -9,8 +9,6 @@ RSpec.describe 'Cards API', type: :request do
   let!(:cards) { create_list(:card, 10) }
   let(:card_id) { cards.first.id }
 
-
-
   describe 'GET /cards' do
     before { user.cards = cards }
     before { get '/cards', params: {}, headers: headers }

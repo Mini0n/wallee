@@ -36,7 +36,7 @@ RSpec.describe 'Wallets API', type: :request do
     end
 
     context 'wallet doesnt exists' do
-      before { get "/wallets/1235", headers: headers }
+      before { get '/wallets/1235', headers: headers }
 
       it 'returns status 404' do
         expect(response).to have_http_status 204

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
-
   let(:user) { create(:user) }
   let(:headers) { { 'Authorization' => token_generator(user.id) } }
   let(:bad_headers) { { 'Authorization' => nil } }
@@ -21,8 +22,8 @@ RSpec.describe ApplicationController, type: :controller do
       end
 
       it 'raises MissingToken error' do
-        expect { subject.instance_eval { authorize_request } }.
-          to raise_error(ExceptionHandler::MissingToken)
+        expect { subject.instance_eval { authorize_request } }
+          .to raise_error(ExceptionHandler::MissingToken)
       end
     end
   end
