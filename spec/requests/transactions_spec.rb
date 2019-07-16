@@ -118,7 +118,6 @@ RSpec.describe 'Transactions API', type: :request do
   end
 
   describe 'POST /transactions' do
-
     context 'wallet to wallet' do
       let(:params) do
         {
@@ -160,6 +159,14 @@ RSpec.describe 'Transactions API', type: :request do
         it 'returns status 422' do
           expect(json['fixed']).to be_nil
           expect(response).to have_http_status 422
+        end
+      end
+
+      context 'bad_headers example' do
+        before { post '/transactions', params: params.merge({amount: 1000}).to_json, headers: invalid_headers }
+
+        it 'returns status 422' do
+          expect(response).to have_http_status 401
         end
       end
     end
