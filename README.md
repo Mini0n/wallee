@@ -11,8 +11,7 @@ Wallee is an e-Waller/Digital-Wallet project built in RoR.
 * Enforced validations & helpers for each piece
 * Complete unit testing &:ExceptionHandler
 * Everything is given and received through JSON
-* Any GUI and interacction <sub>yet pretty solud though</sub>
-  <sub>expect sniffers, i think, but https</sub>
+* Any GUI and interacction work <sub>yet pretty solid</sub>
 
 #### Technical Stuff
 
