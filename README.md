@@ -28,11 +28,12 @@ Wallee is an e-Waller/Digital-Wallet project built in RoR.
   * [JWT](https://jwt.io/) creates and decodes tokens for all operations any operation to be doable
 
 * Database creation && initialization
-  0. ``mkdir wallee ; cd wallee``
-  1. ``git clone git@github.com:Mini0n/wallee.git``
-  2. ``cd wallee``
-  3. ``bunble install``
-  4. ``rails db:setup``
+  1. ``mkdir wallee ; cd wallee``
+  2. ``git clone git@github.com:Mini0n/wallee.git``
+  3. ``cd wallee``
+  4. ``bunble install``
+
+  5. ``rails db:setup``
 * How to run the test suite
   * ``rspec``
 
@@ -46,32 +47,32 @@ Wallee is an e-Waller/Digital-Wallet project built in RoR.
   Here are some actions you can run with the help of ``curl`` it is important to note
   that the Auhorization is the one you get when logged in, so it must be changed with the one received
 
-  * Create User
-  ``curl -d '{"name":"Test", "email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/signup``
+* Create User
+``curl -d '{"name":"Test", "email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/signup``
 
-  * Create User 2 (for tests)
-  ``curl -d '{"name":"Test2", "email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/signup``
+* Create User 2 (for tests)
+``curl -d '{"name":"Test2", "email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/signup``
 
-  * Login as Test
-  ``curl -d '{"email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/auth/login``
+* Login as Test
+``curl -d '{"email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/auth/login``
 
-  * Read user cards [use gotten token]
-  ``curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMyOTIwMTJ9.4d6dJ3ibE9ETDOGF3OwY3k4xqJcuWY3OIkZa03hFDmw" http://localhost:3000/cards``
+* Read user cards [use gotten token]
+``curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMyOTIwMTJ9.4d6dJ3ibE9ETDOGF3OwY3k4xqJcuWY3OIkZa03hFDmw" http://localhost:3000/cards``
 
-  * Create Card [debit]
-  ``curl -d '{"name":"forbrugsforeningen", "name_on_card":"Maryanne Graham", "number":"2223412178883462", "expiry":"Fri, 10 Apr 2020", "debit":"true"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/cards``
+* Create Card [debit]
+``curl -d '{"name":"forbrugsforeningen", "name_on_card":"Maryanne Graham", "number":"2223412178883462", "expiry":"Fri, 10 Apr 2020", "debit":"true"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/cards``
 
-  * Create Card [credit]
-  ``curl -d '{"name":"solo", "name_on_card":"Zackary Doyle", "number":"378083476107313", "expiry":"Fri, 10 Apr 2020", "debit":"false"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/cards``
+* Create Card [credit]
+``curl -d '{"name":"solo", "name_on_card":"Zackary Doyle", "number":"378083476107313", "expiry":"Fri, 10 Apr 2020", "debit":"false"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/cards``
 
-  * Fund Wallet
-    ``curl -d '{"amount":"1000", "card_origin_id":"2", "wallet_destiny_id":"1"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/transactions``
+* Fund Wallet
+  ``curl -d '{"amount":"1000", "card_origin_id":"2", "wallet_destiny_id":"1"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/transactions``
 
-  * Withdraw from Wallet
-    ``curl -d '{"amount":"1000", "card_destiny_id":"1", "wallet_origin_id":"1"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/transactions``
+* Withdraw from Wallet
+  ``curl -d '{"amount":"1000", "card_destiny_id":"1", "wallet_origin_id":"1"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/transactions``
 
-  * Transfer to Wallet
-    ``curl -d '{"amount":"100", "wallet_origin_id":"1", "wallet_destiny_id":"2"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/transactions``
+* Transfer to Wallet
+  ``curl -d '{"amount":"100", "wallet_origin_id":"1", "wallet_destiny_id":"2"}' -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMzNDM1NjR9.slo5R0LAqjRTTieS2QTVbRfUg68hm_TiPsSlBbNgmHY" -H "Content-Type: application/json" -X POST http://localhost:3000/transactions``
 
-  * Review Transactons
-    ``curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMyOTIwMTJ9.4d6dJ3ibE9ETDOGF3OwY3k4xqJcuWY3OIkZa03hFDmw" http://localhost:3000/transactions``
+* Review Transactons
+  ``curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjMyOTIwMTJ9.4d6dJ3ibE9ETDOGF3OwY3k4xqJcuWY3OIkZa03hFDmw" http://localhost:3000/transactions``
