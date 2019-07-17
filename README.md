@@ -16,17 +16,17 @@ Wallee is an e-Waller/Digital-Wallet project built in RoR.
 
 #### Technical Stuff
 
-* Ruby version
-  ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]
+* Ruby on Rails
+  * ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]
+  * Rails 5.2.3
 * System dependencies
   No esoteric dependencies were used. I tried to build everything as light as possible.
-  - Tests use RSpec with FactoryBot and Faker for tests fabrics
-  - Shoulda-matchers makes more pleasant spec code.
-
-DatabaseClear was set to ensure clean tests.
-
-[CreditCardValidators](https://github.com/Fivell/credit_card_validations) checks and fabricates valid card numbers
+  * Tests use RSpec with FactoryBot and Faker for tests fabrics
+  * Shoulda-matchers makes more pleasant spec code.
+  * DatabaseClear was set to ensure clean tests.
+  * [CreditCardValidators](https://github.com/Fivell/credit_card_validations) checks and fabricates valid card numbers
   * [JWT](https://jwt.io/) creates and decodes tokens for all operations any operation to be doable
+
 * Database creation && initialization
   0. ``mkdir wallee ; cd wallee``
   1. ``git clone git@github.com:Mini0n/wallee.git``
@@ -37,12 +37,14 @@ DatabaseClear was set to ensure clean tests.
   * ``rspec``
 
 ### Running
+
   * You can start the project with ``rails s`` or ``rails c``
     to execute any actions
 
 ### Trying it
-  * Here are some actions you can run with the help of ``curl``
-    it is important to note that tehe Auhorization is the one you get when logged in, so it must be changed with the one received
+
+  Here are some actions you can run with the help of ``curl`` it is important to note
+  that the Auhorization is the one you get when logged in, so it must be changed with the one received
 
   * Create User
   ``curl -d '{"name":"Test", "email":"test@test.com", "password":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:3000/signup``
