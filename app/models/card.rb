@@ -13,6 +13,9 @@ class Card < ApplicationRecord
   validates :debit, inclusion: { in: [true, false] }
   validate :valid_expiration
 
+  validates :name, uniqueness: { scope: :user, message: "There's already a Card with this name" }
+  validates :number, uniqueness: { scope: :user, message: "There's already a Card with this number" }
+
   def valid_expiration
     if expiry.is_a?(Date)
       errors.add(:expiry, 'must be a valid date in the future') unless expiry > Date.today
