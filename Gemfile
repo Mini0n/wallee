@@ -31,7 +31,6 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'rack-cors'
 gem 'credit_card_validations'
 
-# gem 'sqlite3'
   gem 'pg'
 
 group :development, :test do
@@ -42,8 +41,6 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda-matchers'
-  # Use sqlite3 as the database for Active Record
-  # gem 'sqlite3'
 end
 
 group :development do
