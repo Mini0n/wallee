@@ -16,7 +16,7 @@ class AuthUser
 
   def user
     user = User.find_by(email: email)
-    return user if user&.authenticate(pass)
+    return user if user && user.authenticate(pass)
     raise(ExceptionHandler::AuthError, Message.invalid_credentials)
   end
 end
